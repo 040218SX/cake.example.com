@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Event\Event;
 
 /**
@@ -28,6 +29,8 @@ use Cake\Event\Event;
 class AppController extends Controller
 {
 
+    protected $session;
+
     /**
      * Initialization hook method.
      *
@@ -40,7 +43,7 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
-
+        $this->loadComponent('Auth');
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 
@@ -50,5 +53,9 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
+        $this->session = $this->getRequest()->getSession();
+
+        $this->Auth->deny();
+
     }
 }

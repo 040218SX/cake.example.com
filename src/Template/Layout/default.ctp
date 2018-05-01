@@ -13,6 +13,8 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
+$session = $this->request->getSession()->read();
+
 $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
@@ -37,13 +39,49 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+                <h1><?php echo $this->Html->link(
+                        'My Logo',
+                        '/'
+                    ); ?>
+                </h1>
             </li>
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
+                <li><?php echo $this->Html->link(
+                        'Articles',
+                        'articles'
+                    ); ?>
+                </li>
+                <?php
+
+                    if(!empty($session['Auth']['User']['id'])):
+                        echo $this->Html->tag('li',
+                            $this->Html->link(
+                                'Users',
+                                [
+                                    'plugin'=>'CakeDC/Users',
+                                    'controller'=>'Users',
+                                    'action'=>'index'
+                                ]
+                            )
+                        );
+                        echo $this->Html->tag('li',
+                            $this->Html->link(
+                                'Logout',
+                                'logout'
+                            )
+                        );
+                    else:
+                        echo $this->Html->tag('li',
+                            $this->Html->link(
+                                'Login',
+                                'login'
+                            )
+                        );
+                    endif;
+
+                ?>
             </ul>
         </div>
     </nav>

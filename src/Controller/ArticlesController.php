@@ -10,6 +10,8 @@ class ArticlesController extends AppController
         parent::initialize();
         $this->loadComponent('Paginator');
         $this->loadComponent('Flash');
+
+        $this->Auth->allow(['index', 'view']);
     }
 
     public function index()
@@ -37,7 +39,7 @@ class ArticlesController extends AppController
                 $this->request->getData()
             );
 
-            //$article->user_id = 1;
+            $article->user_id = $this->session->read('Auth.User.id');
 
             if($this->Articles->save($article)) {
                 $this->Flash->success('Your article has been saved');
